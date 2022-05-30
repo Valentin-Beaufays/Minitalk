@@ -6,7 +6,7 @@ CFLAGS = -Werror -Wextra -Wall
 
 LIB =	libftprintf.a
 
-LIBFTPATH =	../ft_printf/
+LIBPATH =	../ft_printf/
 
 INCLUDES:=	-I ../ft_printf/
 
@@ -18,20 +18,20 @@ OBJ =	$(FILES:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ) libftprintf.a
-	$(CC) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBFTPATH)$(LIB)
+	$(CC) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBPATH)$(LIB)
 
 libftprintf.a:
-	@make -C $(LIBFTPATH) libftprintf.a
+	@make -C $(LIBPATH) libftprintf.a
 
 %.o: %.c
-	$(CC) -c $(CFLAGS) $(INCLUDES) -o $@ $<
+	$(CC) -c $(INCLUDES) -o $@ $<
 
 clean:
-	@make -C $(LIBFTPATH) clean
+	@make -C $(LIBPATH) clean
 	@rm -f $(OBJ)
 
 fclean: clean
-	@make -C $(LIBFTPATH) fclean
+	@make -C $(LIBPATH) fclean
 	@rm -f $(NAME)
 
 re: fclean $(NAME)

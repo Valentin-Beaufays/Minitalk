@@ -16,7 +16,7 @@ static char *convert_char(char c)
 	int i;
 
 	i = 7;
-	character = malloc(8);
+	character = malloc(9);
 	if (!character)
 		return NULL;
 	while (i >= 0 && c > 0)
@@ -30,6 +30,7 @@ static char *convert_char(char c)
 		character[i] = 48;
 		i--;
 	}
+	character[8] = 0;
 	return (character);
 }
 
@@ -71,7 +72,7 @@ int	main(int argc, char **argv)
 		converted = convert_str(argv[2]);
 		while (converted[i])
 		{
-			ft_printf("%.8s\n", converted[i]);
+			ft_printf("%s\n", converted[i]);
 			i++;
 		}
 		send_converted(ft_atoi(argv[1]), converted);

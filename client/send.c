@@ -3,8 +3,21 @@
 
 int send_converted(int pid, char **converted)
 {
-	(void)pid;
-	(void)converted;
-	kill(pid, SIGUSR2);
+	size_t i;
+
+	while(*converted)
+	{
+		i = 0;
+		while(*(*converted + i))
+		{
+			usleep(100);
+			if (*(*converted + i) == '0')
+				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
+			i++;
+		}
+		converted++;
+	}
 	return (0);
 }
