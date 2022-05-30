@@ -1,0 +1,4 @@
+ft_printf/
+*.o
+*.out
+.DS_Store
