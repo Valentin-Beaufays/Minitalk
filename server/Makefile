@@ -16,14 +16,14 @@ OBJ =		$(FILES:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) libftprintf.a
+$(NAME): $(OBJ) ../ft_printf/libftprintf.a
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBPATH)$(LIB)
 
-libftprintf.a:
+../ft_printf/libftprintf.a:
 	@make -C $(LIBPATH) libftprintf.a
 
 %.o: %.c
-	$(CC) -c $(CFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(INCLUDES) -o $@ $<
 
 clean:
 	@make -C $(LIBPATH) clean

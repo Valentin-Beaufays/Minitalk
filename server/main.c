@@ -1,12 +1,12 @@
 #include <signal.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <stdio.h>
-char g_char;
+#include "ft_printf.h"
 
-void handler(int sig)
+char	g_char;
+
+void	sig_handler(int sig)
 {
-	static size_t count;
+	static size_t	count;
 
 	g_char *= 2;
 	if (sig == SIGUSR2)
@@ -19,18 +19,18 @@ void handler(int sig)
 	}
 }
 
-int	main()
+int	main(void)
 {
-	pid_t pid;
-	struct sigaction sa;
-	
+	pid_t				pid;
+	struct sigaction	sa;
+
 	g_char = 0;
 	pid = getpid();
-	printf("%d\n", pid);
-	sa.sa_handler = handler;
+	ft_printf("%d\n", pid);
+	sa.sa_handler = sig_handler;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	while(1)
+	while (1)
 		pause();
 	return (EXIT_SUCCESS);
 }

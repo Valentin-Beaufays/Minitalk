@@ -1,6 +1,8 @@
-#include "client.h"
+#include <signal.h>
+#include <stdlib.h>
+#include "ft_printf.h"
 
-static void free_converted(char **str, size_t len)
+static void	free_converted(char **str, size_t len)
 {
 	while (len)
 	{
@@ -9,19 +11,40 @@ static void free_converted(char **str, size_t len)
 	}
 	free(str);
 }
-// TO_DO: remove "+48" in final version to have only 0 and 1 in values
-static char *convert_char(char c)
+
+int	send_converted(int pid, char **converted)
 {
-	char *character;
-	int i;
+	size_t	i;
+
+	while (*converted)
+	{
+		i = 0;
+		while (*(*converted + i))
+		{
+			usleep(100);
+			if (*(*converted + i) == '0')
+				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
+			i++;
+		}
+		converted++;
+	}
+	return (0);
+}
+
+static char	*convert_char(char c)
+{
+	char	*character;
+	int		i;
 
 	i = 7;
 	character = malloc(9);
 	if (!character)
-		return NULL;
+		return (NULL);
 	while (i >= 0 && c > 0)
 	{
-		character[i] = (c % 2) + 48; 
+		character[i] = (c % 2) + 48;
 		c /= 2;
 		i--;
 	}
@@ -34,11 +57,11 @@ static char *convert_char(char c)
 	return (character);
 }
 
-static char **convert_str(char *str)
+static char	**convert_str(char *str)
 {
-	size_t len;
-	size_t i;
-	char **converted;
+	size_t	len;
+	size_t	i;
+	char	**converted;
 
 	i = 0;
 	len = ft_strlen(str);
@@ -61,20 +84,13 @@ static char **convert_str(char *str)
 
 int	main(int argc, char **argv)
 {
-	char **converted;
-	size_t i;
+	char	**converted;
 
-	i = 0;
 	if (argc != 3)
 		ft_printf("usage: ./client [pid] [message]");
 	else
 	{
 		converted = convert_str(argv[2]);
-		while (converted[i])
-		{
-			ft_printf("%s\n", converted[i]);
-			i++;
-		}
 		send_converted(ft_atoi(argv[1]), converted);
 		free_converted(converted, ft_strlen(argv[2]));
 	}

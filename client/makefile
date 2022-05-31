@@ -8,23 +8,24 @@ LIB =	libftprintf.a
 
 LIBPATH =	../ft_printf/
 
+LIBFILE =	$(LIBPATH)$(LIB)
+
 INCLUDES:=	-I ../ft_printf/
 
-FILES =	main.c\
-		send.c
+FILES =	main.c
 
 OBJ =	$(FILES:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) libftprintf.a
-	$(CC) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBPATH)$(LIB)
+$(NAME): $(OBJ) $(LIBFILE)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(INCLUDES) $(LIBPATH)$(LIB)
 
-libftprintf.a:
+$(LIBFILE):
 	@make -C $(LIBPATH) libftprintf.a
 
 %.o: %.c
-	$(CC) -c $(INCLUDES) -o $@ $<
+	$(CC) -c $(CFLAGS) $(INCLUDES) -o $@ $<
 
 clean:
 	@make -C $(LIBPATH) clean
